@@ -5,6 +5,7 @@ widget = (function(){
     return {
         init: function(args){
             _args = args;
+            console.log('got init: ' + args);
         },
         render: function() {
             alert("I got these! " + _args[0]);
