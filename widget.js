@@ -3,7 +3,7 @@ widget = (function(){
     var _args = {};
 
     return {
-        getConfig: function(){
+        getConfig: function(callback) {
             console.log("has config called");
             $.ajax({
                 url: "/config/widget_" + _args,
@@ -13,7 +13,7 @@ widget = (function(){
                     console.log("got empty result for widget: " + _args);
                 }
                 console.log("result: " + json_config);
-                return json_config;
+                callback(json_config);
             });
         },
         init: function(args){
@@ -27,13 +27,22 @@ widget = (function(){
             image.src = "/graph_widget/graph.png";
             widget.appendChild(image);
 
-            var json_config = this.getConfig();
-            if(json_config === ""){
-                var key_input = document.createElement('input');
-                key_input.type = "text";
-                key_input.style.margin = "10px";
-                widget.appendChild(key_input);
-            }
+            var callback = function (json_config) {
+                if(json_config === ""){
+                    var key_input = document.createElement('input');
+                    key_input.type = "text";
+                    key_input.style.margin = "10px";
+                    widget.appendChild(key_input);
+
+                    var save_link = document.createElement('a');
+                    save_link.href = "/setup/save_config?id=" + widget_id
+                    save_link.innerHTML = "save";
+                    widget.appendChild(save_link);
+                }
+            };
+
+            this.getConfig(callback);
+            
         },
         render: function() {
             alert("I got these! " + _args[0]);
