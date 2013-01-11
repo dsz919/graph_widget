@@ -32,6 +32,7 @@ widget = (function(){
             
             var key_input = document.createElement('input');
             key_input.type = "text";
+            key_input.style.margin = "10px";
             widget.appendChild(key_input);
         },
         render: function() {
