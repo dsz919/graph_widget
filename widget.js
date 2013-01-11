@@ -3,17 +3,18 @@ widget = (function(){
     var _args = {};
 
     return {
-        hasConfig: function(){
+        getConfig: function(){
             console.log("has config called");
             $.ajax({
                 url: "/config/widget_" + _args,
                 cache: false
-            }).done(function( html ) {
-                console.log("result: " + html);
+            }).done(function(json_config) {
+                if(json_config === ""){
+                    console.log("got empty result for widget: " + _args);
+                }
+                console.log("result: " + json_config);
+                return json_config;
             });
-        },
-        getConfig: function(){
-            console.log("get conf!");
         },
         init: function(args){
             _args = args;
@@ -26,14 +27,13 @@ widget = (function(){
             image.src = "/graph_widget/graph.png";
             widget.appendChild(image);
 
-            if(this.hasConfig()){
-                var config = this.getConfig();
+            var json_config = this.getConfig();
+            if(json_config === ""){
+                var key_input = document.createElement('input');
+                key_input.type = "text";
+                key_input.style.margin = "10px";
+                widget.appendChild(key_input);
             }
-            
-            var key_input = document.createElement('input');
-            key_input.type = "text";
-            key_input.style.margin = "10px";
-            widget.appendChild(key_input);
         },
         render: function() {
             alert("I got these! " + _args[0]);
