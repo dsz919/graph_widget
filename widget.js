@@ -29,15 +29,29 @@ widget = (function(){
 
             var callback = function (json_config) {
                 if(json_config === ""){
+
+                    var form = document.createElement("form");
+                    form.setAttribute('method',"post");
+                    form.setAttribute('action',"/setup/save_config");
+
                     var key_input = document.createElement('input');
                     key_input.type = "text";
+                    key_input.name = "account_id";
                     key_input.style.margin = "10px";
-                    widget.appendChild(key_input);
 
-                    var save_link = document.createElement('a');
-                    save_link.href = "/setup/save_config?id=" + widget_id
-                    save_link.innerHTML = "save";
-                    widget.appendChild(save_link);
+                    var widget_id_input = document.createElement('input');
+                    widget_id_input.type = "hidden";
+                    widget_id_input.name = "widget_id";
+                    widget_id_input.value = widget_id;
+
+                    var submit_button = document.createElement('input');
+                    submit_button.type = "submit";
+                    submit_button.value = "save";
+
+                    form.appendChild(key_input);
+                    form.appendChild(widget_id_input);
+                    form.appendChild(submit_button);
+                    widget.appendChild(form);
                 }
             };
 
